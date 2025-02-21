@@ -51,7 +51,7 @@ async function fetchTransactions(accessToken) {
   const baseUrl = process.env.PAYPAL_API_URL || 'https://api.paypal.com';
 
   const startDate = lastTransactionTime.toISOString();
-  const maxDays = 30 * 24 * 60 * 60 * 1000; // Maximum 30 days in milliseconds
+  const maxDays = 10 * 24 * 60 * 60 * 1000; // Maximum 30 days in milliseconds
   const endDate = new Date().toISOString();
 
   const endDateObj = new Date(
