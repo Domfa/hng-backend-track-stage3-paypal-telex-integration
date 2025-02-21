@@ -10,7 +10,8 @@ const integrationSpecSettings = {
         'An integration that polls the PayPal API for new transactions and posts payment alerts to a Telex channel.',
       app_logo:
         'https://cdn.brandfetch.io/id-Wd4a4TS/theme/dark/idCerXwXCa.svg?c=1bx1742623151377id64Mup7ac0_ViWH0a&t=1727787911932',
-      app_url: 'http://ec2-34-217-144-139.us-west-2.compute.amazonaws.com/',
+      app_url:
+        'https://hng-backend-track-stage3-paypal-telex-3d94.onrender.com',
       background_color: '#ffffff',
     },
     is_active: true,
@@ -46,7 +47,7 @@ const integrationSpecSettings = {
     ],
     target_url: '',
     tick_url:
-      'http://ec2-34-217-144-139.us-west-2.compute.amazonaws.com/web-hook',
+      'https://hng-backend-track-stage3-paypal-telex-3d94.onrender.com/tick',
   },
 };
 
