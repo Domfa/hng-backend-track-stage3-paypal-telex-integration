@@ -194,6 +194,9 @@ async function processTick(payload) {
     const transactions = await fetchTransactions(accessToken);
     const newTransactions = filterNewTransactions(transactions);
 
+    ///debugging
+    console.log(accessToken);
+
     let message;
     if (newTransactions.length === 0) {
       message = 'No new transactions found.';
