@@ -3,7 +3,7 @@ const express = require('express');
 const axios = require('axios');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const integrationSpecSettings = require('./telex-integration-specs');
+const integrationSpecSettings = require('../config/telex-integration-specs');
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -20,8 +20,7 @@ let lastTransactionTime = new Date(0);
  * Retrieves a PayPal access token using your client credentials.
  */
 async function getAccessToken(clientId, secret) {
-  const baseUrl =
-    process.env.PAYPAL_API_URL || 'https://api.sandbox.paypal.com';
+  const baseUrl = process.env.PAYPAL_API_URL || 'https://api.paypal.com';
   const credentials = Buffer.from(`${clientId}:${secret}`).toString('base64');
 
   try {
@@ -49,8 +48,7 @@ async function getAccessToken(clientId, secret) {
  * Fetches transactions from PayPal between the last processed time and now.
  */
 async function fetchTransactions(accessToken) {
-  const baseUrl =
-    process.env.PAYPAL_API_URL || 'https://api.sandbox.paypal.com';
+  const baseUrl = process.env.PAYPAL_API_URL || 'https://api.paypal.com';
   const startDate = lastTransactionTime.toISOString();
   const endDate = new Date().toISOString();
 
@@ -140,7 +138,23 @@ async function sendResultToTelex(returnUrl, message, status = 'success') {
  */
 async function processTick(payload) {
   try {
-    const { client_id, client_secret, return_url } = payload;
+    // Extract client_id and client_secret from the settings array
+    const clientIdSetting = payload.settings.find(
+      (setting) => setting.label === 'paypalClientId'
+    );
+    const clientSecretSetting = payload.settings.find(
+      (setting) => setting.label === 'paypalSecret'
+    );
+
+    if (!clientIdSetting || !clientSecretSetting) {
+      throw new Error(
+        'PayPal client credentials not provided in the settings.'
+      );
+    }
+
+    const client_id = clientIdSetting.default;
+    const client_secret = clientSecretSetting.default;
+    const { return_url } = payload;
 
     // Obtain access token using credentials from the payload
     const accessToken = await getAccessToken(client_id, client_secret);
@@ -153,10 +167,9 @@ async function processTick(payload) {
     } else {
       message = newTransactions.map((txn) => formatMessage(txn)).join('\n');
     }
-    // Send the formatted message to Telex using the return_url from the payload
+
     await sendResultToTelex(return_url, message);
   } catch (error) {
-    // In case of error, send an error message with status 'error'
     await sendResultToTelex(
       payload.return_url,
       `Error processing transactions: ${error.message}`,
