@@ -48,29 +48,63 @@ async function getAccessToken(clientId, secret) {
  * Fetches transactions from PayPal between the last processed time and now.
  */
 async function fetchTransactions(accessToken) {
-  const baseUrl = process.env.PAYPAL_API_URL || 'https://api.paypal.com';
-  const startDate = lastTransactionTime.toISOString();
-  const endDate = new Date().toISOString();
+  const baseUrl =
+    process.env.PAYPAL_API_URL || 'https://api.sandbox.paypal.com';
 
-  try {
-    const response = await axios.get(`${baseUrl}/v1/reporting/transactions`, {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`,
-      },
-      params: {
-        start_date: startDate,
-        end_date: endDate,
-      },
-    });
-    // Return an array of transactions (or an empty array if none)
-    return response.data.transaction_details || [];
-  } catch (error) {
-    console.error(
-      'Error fetching transactions:',
-      error.response?.data || error.message
-    );
-    throw error;
+  const startDate = lastTransactionTime.toISOString();
+  const now = new Date();
+  const endDate = now.toISOString();
+
+  const maxDays = 31 * 24 * 60 * 60 * 1000; // Maximum 31 days in milliseconds
+  const startDateObj = new Date(lastTransactionTime);
+  const endDateObj = new Date();
+
+  // Check if the date range exceeds 31 days
+  if (endDateObj.getTime() - startDateObj.getTime() > maxDays) {
+    // If it does, limit the end date to 31 days after the start date
+    const limitedEndDate = new Date(
+      startDateObj.getTime() + maxDays
+    ).toISOString();
+
+    try {
+      const response = await axios.get(`${baseUrl}/v1/reporting/transactions`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+        params: {
+          start_date: startDate,
+          end_date: limitedEndDate,
+        },
+      });
+      return response.data.transaction_details || [];
+    } catch (error) {
+      console.error(
+        'Error fetching transactions:',
+        error.response?.data || error.message
+      );
+      throw error;
+    }
+  } else {
+    try {
+      const response = await axios.get(`${baseUrl}/v1/reporting/transactions`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+        params: {
+          start_date: startDate,
+          end_date: endDate,
+        },
+      });
+      return response.data.transaction_details || [];
+    } catch (error) {
+      console.error(
+        'Error fetching transactions:',
+        error.response?.data || error.message
+      );
+      throw error;
+    }
   }
 }
 
