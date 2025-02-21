@@ -9,7 +9,7 @@ const integrationSpecSettings = {
       app_description:
         'An integration that polls the PayPal API for new transactions and posts payment alerts to a Telex channel.',
       app_logo:
-        'https://cdn.pixabay.com/photo/2018/05/03/21/49/paypal-3372585_1280.png',
+        'https://cdn.pixabay.com/photo/2018/05/08/21/29/paypal-3384015_1280.png',
       app_url:
         'https://hng-backend-track-stage3-paypal-telex-3d94.onrender.com',
       background_color: '#ffffff',
@@ -39,10 +39,10 @@ const integrationSpecSettings = {
         default: '',
       },
       {
-        label: 'Time interval',
+        label: 'interval',
         type: 'text',
         required: true,
-        default: '*/5 * * * *',
+        default: '*/25 * * * *',
       },
     ],
     target_url: '',

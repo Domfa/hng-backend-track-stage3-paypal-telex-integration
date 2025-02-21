@@ -3,7 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const integrationSpecSettings = require('../config/telex-integration-specs');
-const processTelexRequest = require('./utils/functionality');
+const { processTelexRequest } = require('./utils/functionality');
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -26,7 +26,9 @@ app.post('/tick', (req, res) => {
   res.status(202).json({ status: 'accepted' });
 
   // Process the tick in the background
-  processTelexRequest(payload);
+  processTelexRequest(payload).catch((err) => {
+    console.error('Error in background processing:', err);
+  });
 });
 
 //Health check endpoint.

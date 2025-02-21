@@ -164,4 +164,11 @@ async function processTelexRequest(payload) {
   }
 }
 
-module.exports = processTelexRequest;
+module.exports = module.exports = {
+  getAccessToken,
+  fetchTransactions,
+  filterNewTransactions,
+  formatMessage,
+  sendResultToTelex,
+  processTelexRequest,
+};
