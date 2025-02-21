@@ -3,7 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const integrationSpecSettings = require('../config/telex-integration-specs');
-const { processTelexRequest } = require('./utils');
+const processTelexRequest = require('./utils/functionality');
 
 const app = express();
 const PORT = process.env.PORT || 4000;
