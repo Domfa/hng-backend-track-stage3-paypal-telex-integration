@@ -48,8 +48,7 @@ async function getAccessToken(clientId, secret) {
  * Fetches transactions from PayPal between the last processed time and now.
  */
 async function fetchTransactions(accessToken) {
-  const baseUrl =
-    process.env.PAYPAL_API_URL || 'https://api.sandbox.paypal.com';
+  const baseUrl = process.env.PAYPAL_API_URL || 'https://api.paypal.com';
 
   const startDate = lastTransactionTime.toISOString();
   const now = new Date();
