@@ -9,7 +9,7 @@ const integrationSpecSettings = {
       app_description:
         'An integration that polls the PayPal API for new transactions and posts payment alerts to a Telex channel.',
       app_logo:
-        'https://cdn.brandfetch.io/id-Wd4a4TS/theme/dark/idCerXwXCa.svg?c=1bx1742623151377id64Mup7ac0_ViWH0a&t=1727787911932',
+        'https://cdn.pixabay.com/photo/2018/05/03/21/49/paypal-3372585_1280.png',
       app_url:
         'https://hng-backend-track-stage3-paypal-telex-3d94.onrender.com',
       background_color: '#ffffff',

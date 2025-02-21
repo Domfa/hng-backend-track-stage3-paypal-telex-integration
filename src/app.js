@@ -14,7 +14,7 @@ app.use(cors());
 
 // Global variable to track the timestamp of the last processed transaction
 // Initialized to a very old date so that the first poll picks up all transactions.
-let lastTransactionTime = new Date(0);
+let lastTransactionTime = new Date();
 
 /**
  * Retrieves a PayPal access token using your client credentials.
