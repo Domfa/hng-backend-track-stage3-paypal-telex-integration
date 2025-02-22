@@ -167,8 +167,10 @@ async function processTelexRequest(payload) {
     } else {
       message = newTransactions.map((txn) => formatMessage(txn)).join('\n');
     }
-
+    
     await sendResultToTelex(return_url, message);
+    
+    lastTransactionTime = new Date();
   } catch (error) {
     await sendResultToTelex(
       payload.return_url,
