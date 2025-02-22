@@ -40,7 +40,7 @@ async function fetchTransactions(accessToken) {
   // Get the current time and subtract 24 hours to set the start date
   const now = new Date();
   const startDate = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString();
-  const endDate = now.toISOString();
+  const endDate = new Date(now.getTime() + 24 * 60 * 60 * 1000).toISOString();
 
   try {
     const response = await axios.get(`${baseUrl}/v1/reporting/transactions`, {
