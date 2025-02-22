@@ -3,7 +3,7 @@ const axios = require('axios');
  * Retrieves a PayPal access token using your client credentials.
  */
 
-let lastTransactionTime = new Date(0); 
+let lastTransactionTime = new Date(0);
 
 async function getAccessToken(clientId, secret) {
   const baseUrl = process.env.PAYPAL_API_URL || 'https://api.paypal.com';
@@ -39,8 +39,8 @@ async function fetchTransactions(accessToken) {
 
   // Get the current time and subtract 24 hours to set the start date
   const now = new Date();
-  const startDate = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString();
-  const endDate = new Date(now.getTime() + 24 * 60 * 60 * 1000).toISOString();
+  const startDate = new Date(now.getTime() - 24 * 60 * 60 * 1000).toISOString();
+  const endDate = new Date(now.getTime() + 2 * 60 * 60 * 1000).toISOString();
 
   try {
     const response = await axios.get(`${baseUrl}/v1/reporting/transactions`, {
@@ -53,7 +53,6 @@ async function fetchTransactions(accessToken) {
         end_date: endDate,
       },
     });
-    console.log('Fetched Transactions:', response.data.transaction_details);
     return response.data.transaction_details || [];
   } catch (error) {
     console.error(
@@ -99,11 +98,11 @@ function formatMessage(transaction) {
 
   // Format the message with bullet points and newlines
   return `New Payment Notification:
-• Transaction ID: ${info.transaction_id}
-• Amount: ${info.transaction_amount.value} ${info.transaction_amount.currency_code}
-• Status: ${info.transaction_status}
-• Date: ${info.transaction_initiation_date}
-• Available Balance: ${availableBalance}\n\n`;
+    • Transaction ID: ${info.transaction_id}
+    • Amount: ${info.transaction_amount.value} ${info.transaction_amount.currency_code}
+    • Status: ${info.transaction_status}
+    • Date: ${info.transaction_initiation_date}
+    • Available Balance: ${availableBalance}\n\n`;
 }
 
 /**
@@ -168,10 +167,8 @@ async function processTelexRequest(payload) {
     } else {
       message = newTransactions.map((txn) => formatMessage(txn)).join('\n');
     }
-    
+
     await sendResultToTelex(return_url, message);
-    
-    lastTransactionTime = new Date();
   } catch (error) {
     await sendResultToTelex(
       payload.return_url,
