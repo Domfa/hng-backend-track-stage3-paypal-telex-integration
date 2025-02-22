@@ -39,7 +39,7 @@ async function fetchTransactions(accessToken) {
 
   // Get the current time and subtract 24 hours to set the start date
   const now = new Date();
-  const startDate = new Date(now.getTime() - 24 * 60 * 60 * 1000).toISOString();
+  const startDate = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString();
   const endDate = now.toISOString();
 
   try {
@@ -53,6 +53,7 @@ async function fetchTransactions(accessToken) {
         end_date: endDate,
       },
     });
+    console.log('Fetched Transactions:', response.data.transaction_details);
     return response.data.transaction_details || [];
   } catch (error) {
     console.error(
@@ -100,6 +101,8 @@ function formatMessage(transaction) {
   return `New Payment Notification:
 • Transaction ID: ${info.transaction_id}
 • Amount: ${info.transaction_amount.value} ${info.transaction_amount.currency_code}
+• Sender: ${senderEmail}
+• Receiver: ${receiverEmail}
 • Status: ${info.transaction_status}
 • Date: ${info.transaction_initiation_date}
 • Available Balance: ${availableBalance}\n\n`;
