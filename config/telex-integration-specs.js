@@ -42,7 +42,7 @@ const integrationSpecSettings = {
         label: 'interval',
         type: 'text',
         required: true,
-        default: '*/25 * * * *',
+        default: '*/30 * * * *',
       },
     ],
     target_url: '',
