@@ -102,7 +102,7 @@ function formatMessage(transaction) {
 • Amount: ${info.transaction_amount.value} ${info.transaction_amount.currency_code}
 • Status: ${info.transaction_status}
 • Date: ${info.transaction_initiation_date}
-• Available Balance: ${availableBalance}`;
+• Available Balance: ${availableBalance}\n\n`;
 }
 
 /**
