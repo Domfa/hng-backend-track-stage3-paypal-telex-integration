@@ -11,7 +11,7 @@ const integrationSpecSettings = {
       app_logo:
         'https://cdn.pixabay.com/photo/2018/05/08/21/29/paypal-3384015_1280.png',
       app_url:
-        'https://hng-backend-track-stage3-paypal-telex-3d94.onrender.com',
+        'https://hng-backend-track-stage3-paypal-telex-zjht.onrender.com',
       background_color: '#ffffff',
     },
     is_active: true,
@@ -47,7 +47,7 @@ const integrationSpecSettings = {
     ],
     target_url: '',
     tick_url:
-      'https://hng-backend-track-stage3-paypal-telex-3d94.onrender.com/tick',
+      'https://hng-backend-track-stage3-paypal-telex-zjht.onrender.com/tick',
   },
 };
 
