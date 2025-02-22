@@ -2,6 +2,9 @@ const axios = require('axios');
 /**
  * Retrieves a PayPal access token using your client credentials.
  */
+
+let lastTransactionTime = new Date(0); 
+
 async function getAccessToken(clientId, secret) {
   const baseUrl = process.env.PAYPAL_API_URL || 'https://api.paypal.com';
   const credentials = Buffer.from(`${clientId}:${secret}`).toString('base64');
